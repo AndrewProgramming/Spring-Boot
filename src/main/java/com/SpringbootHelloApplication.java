@@ -6,7 +6,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * Spring Boot 教程一
  * Spring Boot 入门
  * @author LingDu
- *
  */
 @SpringBootApplication
 public class SpringbootHelloApplication {
