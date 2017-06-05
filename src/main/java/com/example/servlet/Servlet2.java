@@ -10,18 +10,15 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  * 使用注解注册Servlet
- * 
- * 
- * 
+ * @WebServlet(urlPatterns="/servlet/servlet2", description="通过注解注册") 
+ * 不指定name的情况下，name默认值为类全路径，即org.springboot.sample.servlet.Servlet2
  * @author LingDu
  */
 
-//不指定name的情况下，name默认值为类全路径，即org.springboot.sample.servlet.MyServlet2
-@WebServlet(urlPatterns="/servlet/servlet2", description="Servlet的说明") 
+//不指定name的情况下，name默认值为类全路径，即com.example.servlet.Servlet2
+@WebServlet(urlPatterns="/servlet/servlet2.action", description="通过注解注册") 
 public class Servlet2 extends HttpServlet {
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 
 	@Override
