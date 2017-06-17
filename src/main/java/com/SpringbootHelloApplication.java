@@ -25,11 +25,11 @@ import com.example.servlet.Servlet1;
  * Spring Boot 入门
  * @author LingDu
  */
-//exclude={DataSourceAutoConfiguration.class,HibernateJpaAutoConfiguration.class}
+//@SpringBootApplication(exclude={DataSourceAutoConfiguration.class,HibernateJpaAutoConfiguration.class}) 启动时不使用数据库
 @SpringBootApplication
 @ServletComponentScan //使用注解的方式注册servlet需要在SpringbootHelloApplication.java中添加@ServletComponentScan注解
 @ComponentScan
-@MapperScan("com.example.mapper")
+@MapperScan("com.example.mapper")//扫描com.example.mapper包下的类
 
 public class SpringbootHelloApplication {
 
@@ -70,7 +70,7 @@ public class SpringbootHelloApplication {
  
         PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
  
-        sqlSessionFactoryBean.setMapperLocations(resolver.getResources("classpath:/mybatis/*.xml"));
+        sqlSessionFactoryBean.setMapperLocations(resolver.getResources("classpath:/mybatis/*.xml"));//映射文件是resource/mybatis/目录下所有.xml文件
  
         return sqlSessionFactoryBean.getObject();
     }
