@@ -1,15 +1,18 @@
 package com;
 
+
+import javax.servlet.MultipartConfigElement;
 import javax.sql.DataSource;
 
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.annotation.MapperScan;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
-import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration;
+
 import org.springframework.boot.context.properties.ConfigurationProperties;
+
 import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
@@ -19,7 +22,7 @@ import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.web.servlet.DispatcherServlet;
 
-import com.example.servlet.Servlet1;
+
 /**
  * Spring Boot 教程一
  * Spring Boot 入门
@@ -30,29 +33,38 @@ import com.example.servlet.Servlet1;
 @ServletComponentScan //使用注解的方式注册servlet需要在SpringbootHelloApplication.java中添加@ServletComponentScan注解
 @ComponentScan
 @MapperScan("com.example.mapper")//扫描com.example.mapper包下的类
-
 public class SpringbootHelloApplication {
-
-	/*@Bean
-    public ServletRegistrationBean servletRegistrationBean() {
-        return new ServletRegistrationBean(new Servlet1(),"/servlet/*");// ServletName默认值为首字母小写，即servlet
-    }*/
-	
+	@Autowired
+	private MultipartConfigElement multipartConfigElement;
 	
 	/**
      * 修改DispatcherServlet默认配置
      *
-     * @param dispatcherServlet2
+     * @param dispatcherServlet
      * @author LingDu
      */
     @Bean
     public ServletRegistrationBean dispatcherRegistration(DispatcherServlet dispatcherServlet) {
         ServletRegistrationBean registration = new ServletRegistrationBean(dispatcherServlet);
         registration.getUrlMappings().clear();
+        //这里需要将附件配置设置进去，否则请求不过来 报异常：Required request part 'file' is not present
+        registration.setMultipartConfig(multipartConfigElement); 
         registration.addUrlMappings("*.action"); //只有*.action 的请求能通过
-        registration.addUrlMappings("*.json");
         return registration;
     }
+	
+    
+    /**
+     * Servlet支持
+     * @return
+     */
+	/*@Bean
+    public ServletRegistrationBean servletRegistrationBean() {
+        return new ServletRegistrationBean(new Servlet1(),"/servlet/*");// ServletName默认值为首字母小写，即servlet
+    }*/
+	
+	
+	
     
     //DataSource配置
     @Bean
@@ -79,7 +91,6 @@ public class SpringbootHelloApplication {
     public PlatformTransactionManager transactionManager() {
         return new DataSourceTransactionManager(dataSource());
     }
-    
     
 	public static void main(String[] args) {
 		SpringApplication.run(SpringbootHelloApplication.class, args);
