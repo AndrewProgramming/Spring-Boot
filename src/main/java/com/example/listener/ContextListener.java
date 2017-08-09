@@ -28,8 +28,9 @@ public class ContextListener implements ServletContextListener {
 	/**
      * @see ServletContextListener#contextInitialized(ServletContextEvent)
      */
-    public void contextInitialized(ServletContextEvent arg0)  { 
-         System.out.println("监听器初始化。");
+    public void contextInitialized(ServletContextEvent evnet)  { 
+    	evnet.getServletContext().setAttribute("path", evnet.getServletContext().getContextPath());
+        System.out.println("监听器初始化。");
     }
 	
 }
