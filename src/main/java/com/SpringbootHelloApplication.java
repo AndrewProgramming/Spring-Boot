@@ -19,6 +19,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.web.servlet.DispatcherServlet;
 
@@ -33,6 +34,7 @@ import org.springframework.web.servlet.DispatcherServlet;
 @ServletComponentScan //使用注解的方式注册servlet需要在SpringbootHelloApplication.java中添加@ServletComponentScan注解
 @ComponentScan
 @MapperScan("com.example.mapper")//扫描com.example.mapper包下的类
+@EnableScheduling	//开启定时器
 public class SpringbootHelloApplication {
 	@Autowired
 	private MultipartConfigElement multipartConfigElement;
